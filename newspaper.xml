@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="WINDOWS-1251"?>
+
+<newspaper >
+    <category id="1" name="Politics">
+        <news id="1" name="Trump won the primaries!"/>
+        <news id="2" name="Justin Trudeau received Nobel Peace Prize!"/>
+    </category>
+    <category id="2" name="Entertainment">
+        <news id="3" name="Jamala won ESC 2016!"/>
+        <news id="4" name="Star Wars Episode VIII is set for next year!"/>
+    </category>
+
+    <category id="3" name="Sports">
+        <news id="5" name="Ukraine won Euro 2016!"/>
+        <news id="6" name="Next Olympics will be held in Rio!"/>
+    </category>
+
+</newspaper>
