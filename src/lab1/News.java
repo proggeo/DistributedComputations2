@@ -1,9 +1,11 @@
 package lab1;
 
+import java.io.Serializable;
+
 /**
  * Created by Proggeo on 5/28/2016.
  */
-public class News {
+public class News implements Serializable{
 
     private int id;
     private int categoryId;

@@ -1,20 +1,21 @@
-/**
+package lab2; /**
  * Created by Proggeo on 5/24/2016.
  */
 
+import lab1.Category;
+import lab1.News;
+
 import java.sql.*;
+import java.util.ArrayList;
 
-import com.mysql.jdbc.ConnectionFeatureNotAvailableException;
-import com.mysql.jdbc.Driver;
-
-public class Newspaper {
+public class NewspaperDAO {
 
     private Connection conn = null;
     private Statement stmt = null;
 
-    public Newspaper() throws Exception {
+    public NewspaperDAO() throws Exception {
         final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-        final String DB_URL = "jdbc:mysql://localhost/newspaper";
+        final String DB_URL = "jdbc:mysql://localhost/newspaper?autoReconnect=true&useSSL=false";
         final String USER = "root";
         final String PASS = "admin";
 
@@ -26,6 +27,10 @@ public class Newspaper {
 
     public void stop() throws SQLException {
         conn.close();
+    }
+
+    public boolean addCategory(Category category) throws SQLException {
+        return addCategory(category.getId(), category.getName());
     }
 
     public boolean addCategory(int id, String name) throws SQLException {
@@ -41,6 +46,10 @@ public class Newspaper {
 
             return false;
         }
+    }
+
+    public boolean deleteCategory(Category category) throws SQLException {
+        return deleteCategory(category.getId());
     }
 
     public boolean deleteCategory(int id) throws SQLException {
@@ -78,6 +87,32 @@ public class Newspaper {
         }
     }
 
+    public ArrayList<Category> getCategories() {
+        ArrayList<Category> categories = null;
+        String sql = "SELECT id_cat, name FROM categories";
+        try {
+            ResultSet rs = stmt.executeQuery(sql);
+            System.out.println("List of categories:");
+            categories = new ArrayList<>();
+            while (rs.next()) {
+                int id = rs.getInt("id_cat");
+                String name = rs.getString("name");
+                categories.add(new Category(id, name));
+                System.out.println(" >> " + id + " - " + name);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println("Error!");
+            System.out.println(" >> " + e.getMessage());
+        }
+
+        return categories;
+    }
+
+    public boolean addNews(News news) throws SQLException {
+        return addNews(news.getId(), news.getCategoryId(), news.getName());
+    }
+
     public boolean addNews(int id, int id_cat, String name) throws SQLException {
         String sql = "INSERT INTO news (id_news, id_cat, name)" +
                 "VALUES (" + id + ", " + id_cat + ", '" + name + "')";
@@ -91,6 +126,10 @@ public class Newspaper {
 
             return false;
         }
+    }
+
+    public boolean deleteNews(News news) throws SQLException {
+        return deleteNews(news.getId());
     }
 
     public boolean deleteNews(int id) throws SQLException {
@@ -109,6 +148,29 @@ public class Newspaper {
             System.out.println(" >> " + e.getMessage());
             return false;
         }
+    }
+
+    public ArrayList<News> getNews() {
+        ArrayList<News> news = null;
+        String sql = "SELECT id_news, id_cat, name FROM news";
+        try {
+            ResultSet rs = stmt.executeQuery(sql);
+            System.out.println("List of news:");
+            news = new ArrayList<>();
+            while (rs.next()) {
+                int id = rs.getInt("id_news");
+                int id_cat = rs.getInt("id_cat");
+                String name = rs.getString("name");
+                news.add(new News(id, id_cat, name));
+                System.out.println(" >> " + id + " - " + id_cat + "-" + name);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println("Error!");
+            System.out.println(" >> " + e.getMessage());
+        }
+
+        return news;
     }
 
     public void showNews() {
@@ -131,15 +193,15 @@ public class Newspaper {
 
 
     public static void main(String[] args) throws Exception {
-        Newspaper n = new Newspaper();
+        NewspaperDAO n = new NewspaperDAO();
 
         n.showCategories();
         n.addCategory(3, "Sport");
         n.addCategory(4, "Soccer");
         n.deleteCategory(3);
         n.showCategories();
-        n.addNews(4,4,"Sevilla won!");
-        n.addNews(5,4,"Liverpool lost!");
+        n.addNews(4, 4, "Sevilla won!");
+        n.addNews(5, 4, "Liverpool lost!");
         n.showNews();
         n.deleteNews(5);
         n.showNews();
