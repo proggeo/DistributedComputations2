@@ -10,9 +10,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-/**
- * Created by Proggeo on 5/29/2016.
- */
+
 public class Client {
 
     private Socket sock = null;

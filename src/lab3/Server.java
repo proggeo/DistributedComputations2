@@ -14,9 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-/**
- * Created by Proggeo on 5/29/2016.
- */
+
 public class Server {
 
     private ServerSocket server = null;
