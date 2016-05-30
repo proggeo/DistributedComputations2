@@ -69,9 +69,9 @@ public class Server {
                     newspaperDAO.addNews(id, id_cat, name);
                 }
                 break;
-                case "countNews": //count News in category
+                case "countNews": //count News
                 {
-                    out.writeObject(newspaperDAO.getCategories().size());
+                    out.writeObject(newspaperDAO.getNews().size());
                 }
                 break;
                 case "getNewsById": {
